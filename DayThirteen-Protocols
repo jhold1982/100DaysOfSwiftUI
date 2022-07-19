@@ -1,0 +1,47 @@
+protocol NewVehicle {
+    var name: String { get }
+    var currentPassengers: Int { get set }
+    func estimateTime(for distance: Int) -> Int
+    func travel(distance: Int)
+}
+struct DayThirteenCar: NewVehicle {
+    let name = "Car"
+    var currentPassengers = 3
+    func estimateTime(for distance: Int) -> Int {
+        distance / 50
+    }
+    func travel(distance: Int) {
+        print("I'm driving \(distance) miles.")
+    }
+    func openSunroof() {
+        print("It's a nice day.")
+    }
+}
+struct Bicycle: NewVehicle {
+    let name = "Bike"
+    var currentPassengers = 1
+    func estimateTime(for distance: Int) -> Int {
+        distance / 10
+    }
+    func travel(distance: Int) {
+        print("I'm riding a bike \(distance) miles. My legs hurt.")
+    }
+}
+func commute(distance: Int, using vehicle: NewVehicle) {
+    if vehicle.estimateTime(for: distance) > 100 {
+        print("That's too slow. I'll find a different vehicle.")
+    } else {
+        vehicle.travel(distance: distance)
+    }
+}
+func getTravelEstimates(using vehicles: [NewVehicle], distance: Int) {
+    for vehicle in vehicles {
+        let estimate = vehicle.estimateTime(for: distance)
+        print("\(vehicle.name): \(estimate) hours to travel \(distance) miles.")
+    }
+}
+let car13 = DayThirteenCar()
+commute(distance: 200, using: car13)
+let bike = Bicycle()
+commute(distance: 10, using: bike)
+getTravelEstimates(using: [car13, bike], distance: 100)
